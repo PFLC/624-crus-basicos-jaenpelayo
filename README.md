@@ -65,7 +65,7 @@ Esta aplicación es una demostración básica y no implementa medidas avanzadas 
 
 Siéntete libre de contribuir a este proyecto o sugerir mejoras. Para cualquier consulta o problema, por favor abre un issue en este repositorio.
 
-investigacion 
+                                                                  investigacion 
 
 Para utilizar PHP en un CRUD (Create, Read, Update, Delete) necesitas seguir algunos pasos básicos. 
 
