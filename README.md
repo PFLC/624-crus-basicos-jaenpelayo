@@ -65,3 +65,200 @@ Esta aplicación es una demostración básica y no implementa medidas avanzadas 
 
 Siéntete libre de contribuir a este proyecto o sugerir mejoras. Para cualquier consulta o problema, por favor abre un issue en este repositorio.
 
+                                                                  investigacion 
+
+Para utilizar PHP en un CRUD (Create, Read, Update, Delete) necesitas seguir algunos pasos básicos. 
+
+Configuración de la base de datos: Primero, necesitas tener una base de datos MySQL (u otro sistema de gestión de bases de datos) configurada. Puedes crear una tabla para almacenar los datos que deseas gestionar con el CRUD.
+
+Conexión a la base de datos: En tu script PHP, necesitarás establecer una conexión a la base de datos. Puedes hacerlo utilizando la extensión mysqli o PDO de PHP.
+
+<?php
+$servername = "localhost";
+$username = "nombre_usuario";
+$password = "contraseña";
+$database = "nombre_base_de_datos";
+
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Comprobar la conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+?>
+
+Operaciones CRUD: Ahora puedes escribir las funciones para realizar las operaciones CRUD en tu base de datos.
+
+Create (Crear): Insertar nuevos registros en la base de datos.
+
+Read (Leer): Leer registros de la base de datos.
+
+Update (Actualizar): Actualizar registros existentes en la base de datos.
+
+Delete (Eliminar): Eliminar registros de la base de datos.
+
+ejemplo basico 
+
+<?php
+// Crear un nuevo registro
+function createRecord($conn, $nombre, $email) {
+    $sql = "INSERT INTO tabla (nombre, email) VALUES ('$nombre', '$email')";
+    if ($conn->query($sql) === TRUE) {
+        return "Nuevo registro creado con éxito";
+    } else {
+        return "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+// Leer registros
+function readRecords($conn) {
+    $sql = "SELECT id, nombre, email FROM tabla";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+            echo "ID: " . $row["id"]. " - Nombre: " . $row["nombre"]. " - Email: " . $row["email"]. "<br>";
+        }
+    } else {
+        echo "0 resultados";
+    }
+}
+
+// Actualizar un registro existente
+function updateRecord($conn, $id, $nombre, $email) {
+    $sql = "UPDATE tabla SET nombre='$nombre', email='$email' WHERE id=$id";
+    if ($conn->query($sql) === TRUE) {
+        return "Registro actualizado con éxito";
+    } else {
+        return "Error actualizando el registro: " . $conn->error;
+    }
+}
+
+// Eliminar un registro
+function deleteRecord($conn, $id) {
+    $sql = "DELETE FROM tabla WHERE id=$id";
+    if ($conn->query($sql) === TRUE) {
+        return "Registro eliminado con éxito";
+    } else {
+        return "Error eliminando el registro: " . $conn->error;
+    }
+}
+?>
+
+Interfaz de usuario: Finalmente, necesitarás crear una interfaz de usuario (generalmente HTML y CSS) que permita a los usuarios interactuar con estas funciones CRUD. Puedes usar formularios HTML para recopilar datos y enviarlos a tu script PHP para procesarlos.
+Este es un enfoque básico para implementar un CRUD utilizando PHP y MySQL. Recuerda tener en cuenta la seguridad, como la prevención de ataques de inyección SQL, al manejar datos de usuario en tu aplicación.
+
+las operaciones CRUD y una interfaz de usuario básica utilizando HTML y PHP.
+
+Configuración de la base de datos:
+Primero, necesitas crear una tabla en tu base de datos MySQL. Aquí hay un ejemplo de cómo podría ser la definición de la tabla:
+
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50),
+    email VARCHAR(50)
+);
+Conexión a la base de datos:
+<?php
+$servername = "localhost";
+$username = "nombre_usuario";
+$password = "contraseña";
+$database = "nombre_base_de_datos";
+
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Comprobar la conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+?>
+Operaciones CRUD:
+<?php
+// Crear un nuevo registro
+function createRecord($conn, $nombre, $email) {
+    $sql = "INSERT INTO usuarios (nombre, email) VALUES ('$nombre', '$email')";
+    if ($conn->query($sql) === TRUE) {
+        return "Nuevo registro creado con éxito";
+    } else {
+        return "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+// Leer registros
+function readRecords($conn) {
+    $sql = "SELECT id, nombre, email FROM usuarios";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+            echo "ID: " . $row["id"]. " - Nombre: " . $row["nombre"]. " - Email: " . $row["email"]. "<br>";
+        }
+    } else {
+        echo "0 resultados";
+    }
+}
+
+// Actualizar un registro existente
+function updateRecord($conn, $id, $nombre, $email) {
+    $sql = "UPDATE usuarios SET nombre='$nombre', email='$email' WHERE id=$id";
+    if ($conn->query($sql) === TRUE) {
+        return "Registro actualizado con éxito";
+    } else {
+        return "Error actualizando el registro: " . $conn->error;
+    }
+}
+
+// Eliminar un registro
+function deleteRecord($conn, $id) {
+    $sql = "DELETE FROM usuarios WHERE id=$id";
+    if ($conn->query($sql) === TRUE) {
+        return "Registro eliminado con éxito";
+    } else {
+        return "Error eliminando el registro: " . $conn->error;
+    }
+}
+?>
+Interfaz de usuario:
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD de Usuarios</title>
+</head>
+<body>
+    <h2>CRUD de Usuarios</h2>
+
+    <h3>Crear Nuevo Usuario</h3>
+    <form action="crear_usuario.php" method="post">
+        Nombre: <input type="text" name="nombre"><br>
+        Email: <input type="email" name="email"><br>
+        <input type="submit" value="Crear Usuario">
+    </form>
+
+    <h3>Editar Usuario</h3>
+    <form action="editar_usuario.php" method="post">
+        ID del Usuario a Editar: <input type="text" name="id"><br>
+        Nuevo Nombre: <input type="text" name="nombre"><br>
+        Nuevo Email: <input type="email" name="email"><br>
+        <input type="submit" value="Editar Usuario">
+    </form>
+
+    <h3>Eliminar Usuario</h3>
+    <form action="eliminar_usuario.php" method="post">
+        ID del Usuario a Eliminar: <input type="text" name="id"><br>
+        <input type="submit" value="Eliminar Usuario">
+    </form>
+
+    <h3>Lista de Usuarios</h3>
+    <?php
+    // Mostrar la lista de usuarios
+    readRecords($conn);
+    ?>
+
+</body>
+</html>
+Scripts de PHP para procesar los formularios:
+Aquí proporcionarías scripts PHP separados para procesar cada uno de los formularios de la interfaz de usuario (crear, editar, eliminar).
